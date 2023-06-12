@@ -13,12 +13,12 @@ class Like extends Model
 
     public function tweet(): BelongsTo
     {
-        return $this->hasOne(Tweet::class);
+        return $this->belongsTo(Tweet::class);
     }
 
     public function user(): BelongsTo
     {
-        return $this->hasOne(User::class);
+        return $this->belongsTo(User::class);
     }
 
 

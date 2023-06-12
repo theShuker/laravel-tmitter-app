@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TweetController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\LikeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,8 +28,13 @@ Route::post('/create', [TweetController::class, 'store'])->middleware('auth')->n
 
 Route::get('/{tweet}', [TweetController::class, 'show'] )->name('tweet.show');
 
+
+
 Route::get('/{tweet}/edit', [TweetController::class, 'edit'], )->middleware('auth')->name('tweet.edit');
 Route::patch('/{tweet}/edit', [TweetController::class, 'update'], )->middleware('auth')->name('tweet.update');
 Route::delete('/{tweet}', [TweetController::class, 'delete'], )->name('tweet.delete');
+
+Route::post('/{tweet}/like', [LikeController::class, 'toggleLike'] )->name('tweet.toggleLike');
+
 
 
