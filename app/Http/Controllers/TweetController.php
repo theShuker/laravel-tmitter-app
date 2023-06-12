@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Tweet;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TweetController extends Controller
 {
@@ -23,6 +24,8 @@ class TweetController extends Controller
 
     public function edit(Tweet $tweet)
     {
+        if($tweet->user->id !== Auth::id()) return 'unauthorized';
+
         return view('tweet.edit', compact('tweet'));
     }
 
@@ -31,12 +34,19 @@ class TweetController extends Controller
             'text' => 'string'
         ]);
 
-        Tweet::create($data);
+        $newTweet = new Tweet($data);
+        $newTweet->user()->associate(Auth::id());
+
+
+        $newTweet->save();
 
         return redirect()->route('home');
     }
 
     public function update(Tweet $tweet){
+
+        if($tweet->user->id !== Auth::id()) return 'unauthorized';
+
         $data = request()->validate([
             'text' => 'string'
         ]);
@@ -47,6 +57,8 @@ class TweetController extends Controller
     }
 
     public function delete(Tweet $tweet){
+        if($tweet->user->id !== Auth::id()) return 'unauthorized';
+
         $tweet->deleteOrFail();
 
         return redirect()->route('home');

@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TweetController;
+use App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,15 +15,20 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [\App\Http\Controllers\TweetController::class, 'index'])->name('home');
+Route::get('/', [TweetController::class, 'index'])->name('home');
 
-Route::get('/create', [\App\Http\Controllers\TweetController::class, 'create'])->name('tweet.create');
-Route::post('/create', [\App\Http\Controllers\TweetController::class, 'store'])->name('tweet.store');
+Route::get('/auth/login', [AuthController::class, 'login'])->name('login');
+Route::get('/auth/logout', [AuthController::class, 'setLoggedOut'])->name('logout');
+Route::get('/auth/login/{user}', [AuthController::class, 'setLoggedIn'])->name('auth.loginAs');
 
-Route::get('/{tweet}', [\App\Http\Controllers\TweetController::class, 'show'] )->name('tweet.show');
 
-Route::get('/{tweet}/edit', [\App\Http\Controllers\TweetController::class, 'edit'], )->name('tweet.edit');
-Route::patch('/{tweet}/edit', [\App\Http\Controllers\TweetController::class, 'update'], )->name('tweet.update');
-Route::delete('/{tweet}', [\App\Http\Controllers\TweetController::class, 'delete'], )->name('tweet.delete');
+Route::get('/create', [TweetController::class, 'create'])->middleware('auth')->name('tweet.create');
+Route::post('/create', [TweetController::class, 'store'])->middleware('auth')->name('tweet.store');
+
+Route::get('/{tweet}', [TweetController::class, 'show'] )->name('tweet.show');
+
+Route::get('/{tweet}/edit', [TweetController::class, 'edit'], )->middleware('auth')->name('tweet.edit');
+Route::patch('/{tweet}/edit', [TweetController::class, 'update'], )->middleware('auth')->name('tweet.update');
+Route::delete('/{tweet}', [TweetController::class, 'delete'], )->name('tweet.delete');
 
 

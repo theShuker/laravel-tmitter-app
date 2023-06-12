@@ -14,10 +14,15 @@ return new class extends Migration
         Schema::create('tweets', function (Blueprint $table) {
             $table->id();
 
+            //text content of the tweet
             $table->text('text');
 
             $table->timestamps();
             $table->softDeletes();
+
+            $table->integer('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+
         });
     }
 

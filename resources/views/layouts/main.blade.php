@@ -30,6 +30,15 @@
 
                 </ul>
             </div>
+            <div>
+                @auth
+                    {{ Auth::user()->name }}
+                    <a href="{{route('logout')}}">Logout</a>
+                @endauth
+                @guest
+                    <a href="{{route('login')}}">Login</a>
+                @endguest
+            </div>
         </div>
     </nav>
 </header>

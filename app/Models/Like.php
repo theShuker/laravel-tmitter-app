@@ -4,18 +4,19 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Like extends Model
 {
     use HasFactory;
 
-    public function tweet(): HasOne
+    public function tweet(): BelongsTo
     {
         return $this->hasOne(Tweet::class);
     }
 
-    public function user(): HasOne
+    public function user(): BelongsTo
     {
         return $this->hasOne(User::class);
     }
